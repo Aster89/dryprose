@@ -74,10 +74,10 @@ endf
 
 fun! s:computeStats(word)
   " Position of the character where the current keyword starts
-  let [l2, c2] = searchpos('\c\%(\%(' . a:word . '\)\@=.\)\%(\%(' . a:word . '\)\@!.\)*\%.c', 'nWb')
+  let [l2, c2] = searchpos('\c\%(\%(' . a:word . '\)\@=.\)\%(\%(' . a:word . '\)\@!.\)*\%.c', 'nWb') " TODO: This seems a bit unnecessary: when I get to this point, I know there is a word, so I can search back for just the first \k before the cursor
   " Previous match (on current or preceding lines)
   try " to avoid E363
-    let [l1, c1] = searchpos('\c' . a:word . '\%(\%(' . a:word . '\)\@!\_.\)\+\%(\%(' . a:word . '\)\@=.\)\%(\%(' . a:word . '\)\@!\_.\)*\%.c', 'nWb')
+    let [l1, c1] = searchpos('\c' . a:word . '\%(\%(' . a:word . '\)\@!\_.\)\+\%(\%(' . a:word . '\)\@=.\)\%(\%(' . a:word . '\)\@!\_.\)*\%.c\%.l', 'nWb') " TODO: This can be simplified as well, for the same reason
     " TODO calcola anche il numero di capoversi
     let nwordsbefore = getline(l1, l2)->join('\n')[c1-1:-(len(getline(l2)) - c2 + 2)]->split('\%(\k\@!.\)\+')->len()
   catch
